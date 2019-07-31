@@ -1,4 +1,4 @@
-#include "mitkDiffusionHeaderSiemensDICOMFileHelper.h"
+﻿#include "mitkDiffusionHeaderSiemensDICOMFileHelper.h"
 
 #include <cstdlib>
 #include <cmath>
