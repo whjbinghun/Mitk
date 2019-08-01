@@ -82,7 +82,7 @@
       <string>crop the selected image</string>
      </property>
      <property name="text">
-      <string>Crop</string>
+      <string>裁切</string>
      </property>
     </widget>
    </item>
@@ -101,7 +101,7 @@
       <string>crop the selected image</string>
      </property>
      <property name="text">
-      <string>New bounding box!</string>
+      <string>新的包围盒</string>
      </property>
     </widget>
    </item>
@@ -129,7 +129,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Set border voxel value</string>
+        <string>设置边界体素值</string>
        </property>
        <property name="checked">
         <bool>false</bool>
@@ -261,7 +261,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="textLabel2">
        <property name="text">
-        <string>Move the box</string>
+        <string>移动</string>
        </property>
        <property name="wordWrap">
         <bool>false</bool>
@@ -316,7 +316,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="textLabel2_2_2">
        <property name="text">
-        <string>Resize the box</string>
+        <string>调整大小</string>
        </property>
        <property name="wordWrap">
         <bool>false</bool>
@@ -371,7 +371,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="textLabel2_2">
        <property name="text">
-        <string>Rotate the box</string>
+        <string>旋转</string>
        </property>
        <property name="wordWrap">
         <bool>false</bool>

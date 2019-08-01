@@ -29,6 +29,7 @@ void mitk::PluginActivator::start(ctkPluginContext* context)
 {
   BERRY_REGISTER_EXTENSION_CLASS(QmitkMeasurementView, context)
   BERRY_REGISTER_EXTENSION_CLASS(QmitkImageStatisticsView, context)
+
   m_Context = context;
 }
 

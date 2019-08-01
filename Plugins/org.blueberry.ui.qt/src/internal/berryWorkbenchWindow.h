@@ -72,6 +72,9 @@ public:
    * The status line visibility change property.  for internal use only.
    */
   static const QString PROP_STATUS_LINE_VISIBLE; // = "statusLineVisible";
+public:
+	void ActiveMeasurementView();
+	void ActiveGraphcutView();
 
 public:
 

@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -78,6 +78,9 @@ class DataStorage;
  */
 class MITKCORE_EXPORT RenderingManager : public itk::Object
 {
+public:
+	//ÉèÖÃ²ÃÇÐÆ½ÃæÄ£Ê½
+	bool bClipPlaneMode;
 public:
 
   mitkClassMacroItkParent(RenderingManager,itk::Object);
@@ -364,6 +367,10 @@ private:
       bool boundingBoxInitialized, int mapperID );
 
   vtkRenderWindow* m_FocusedRenderWindow;
+
+public:
+	//ÉèÖÃÐý×ªÖÐÐÄ
+	bool bSettingCenterPoint;
 };
 
 #pragma GCC visibility push(default)

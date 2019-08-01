@@ -10,6 +10,11 @@
         <file>mm_zoom.png</file>
         <file>mm_contrast.png</file>
         <file>mm_pan.png</file>
-        <file>LabelSetImage_48.png</file>
+        <file>arrow_down.png</file>
+        <file>arrow_left.png</file>
+        <file>arrow_right.png</file>
+        <file>arrow_up.png</file>
+        <file>anticlockwise.png</file>
+        <file>clockwise.png</file>
     </qresource>
 </RCC>

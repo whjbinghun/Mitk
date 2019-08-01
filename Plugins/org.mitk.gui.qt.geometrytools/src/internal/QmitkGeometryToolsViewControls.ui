@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
-    <height>919</height>
+    <width>420</width>
+    <height>879</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,15 +19,268 @@
   <property name="windowTitle">
    <string>QmitkTemplate</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="libraryTab">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>髋臼杯</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="cancelBtn">
+         <property name="text">
+          <string>撤销</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="applyBtn">
+         <property name="text">
+          <string>应用</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>颈干角(°)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>体重力力臂(mm)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>偏心距(mm)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>外展肌力臂(mm)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="1" column="1">
+          <widget class="QComboBox" name="seriesBox"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QComboBox" name="partBox"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QComboBox" name="anteversionAngleBox"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="abductionAngleBox"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>型号</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>系列</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>部位</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QComboBox" name="modelBox"/>
+         </item>
+         <item row="3" column="2">
+          <widget class="QComboBox" name="diameterBox"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>臼杯前倾角</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>臼杯外展角</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_20">
+           <property name="text">
+            <string>直径</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>肢体长度标记(mm)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="neckShaftAngleLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="offsetLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="momentArmWeightLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="momentArmAbductorLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="lengthMarkLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
+       <string>内衬</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>球头</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_8">
+      <attribute name="title">
+       <string>股骨柄</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>计划仿真</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="m_AddInteractor">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Do image processing</string>
+     </property>
      <property name="text">
-      <string>Rotation step size (°)</string>
+      <string>添加</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item>
+    <widget class="QRadioButton" name="m_KeyboardMode">
+     <property name="text">
+      <string>Keyboard Mode (default)</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="m_MouseMode">
+     <property name="text">
+      <string>Mouse Mode (not implemented, yet)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="m_RemoveInteractor">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>去除</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>移动步长 (mm)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDoubleSpinBox" name="m_TranslationStep">
      <property name="decimals">
       <number>2</number>
@@ -40,68 +293,46 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QRadioButton" name="m_KeyboardMode">
-     <property name="text">
-      <string>Keyboard Mode (default)</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Scale factor (%)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QCheckBox" name="m_UsageInfoCheckBox">
-     <property name="text">
-      <string>Show usage information</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QRadioButton" name="m_MouseMode">
-     <property name="text">
-      <string>Mouse Mode (not implemented, yet)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QDoubleSpinBox" name="m_RotationStep">
-     <property name="maximum">
-      <double>360.000000000000000</double>
-     </property>
-     <property name="value">
-      <double>1.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Translation step size (mm)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="m_RemoveInteractor">
+   <item>
+    <widget class="QLabel" name="label_2">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Remove Interactor</string>
+      <string>旋转步长 (°)</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0">
+   <item>
+    <widget class="QDoubleSpinBox" name="m_RotationStep">
+     <property name="maximum">
+      <double>360.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.500000000000000</double>
+     </property>
+     <property name="value">
+      <double>0.500000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Scale factor (%)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QDoubleSpinBox" name="m_ScaleFactor">
      <property name="maximum">
       <double>200.000000000000000</double>
@@ -114,55 +345,24 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="enabled">
       <bool>true</bool>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
-      <string>Anchor point (for scaling and rotation)</string>
+      <string>轴心点</string>
      </property>
      <property name="checkable">
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QRadioButton" name="m_OriginPointRadioButton">
-          <property name="text">
-           <string>Origin</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="m_CenterPointRadioButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Center</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="m_CustomAnchorPointRadioButton">
-          <property name="text">
-           <string>Custom</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item row="1" column="0">
        <widget class="QWidget" name="m_CustomAnchorPoint" native="true">
         <layout class="QGridLayout" name="gridLayout_6">
@@ -260,299 +460,96 @@
         </layout>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QPushButton" name="m_AddInteractor">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Do image processing</string>
-     </property>
-     <property name="text">
-      <string>Add Interactor</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0" rowspan="3" colspan="2">
-    <widget class="QWidget" name="m_UsageInfo" native="true">
-     <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_32">
-        <property name="text">
-         <string>Select a data node in the data storage and add an interactor. The color property will be set blue if the interactor is added. Next, pick the object you want move (in case there are multiple interactors) with the mouse in a render window. If it turns green, the interactor is active. Keyboard mode provides the following functions:</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <layout class="QGridLayout" name="m_UsageInfoLayout">
-        <item row="4" column="6">
-         <widget class="QLabel" name="label_24">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QRadioButton" name="m_OriginPointRadioButton">
           <property name="text">
-           <string/>
+           <string>原点</string>
           </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_up.png</pixmap>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string/>
+        <item>
+         <widget class="QRadioButton" name="m_CenterPointRadioButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_shift.png</pixmap>
+          <property name="text">
+           <string>中心点</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
-        <item row="3" column="3">
-         <widget class="QLabel" name="label_7">
+        <item>
+         <widget class="QRadioButton" name="m_CustomAnchorPointRadioButton">
           <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="6">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_up.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLabel" name="label_11">
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_right.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_left.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_up.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="5">
-         <widget class="QLabel" name="label_28">
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_19">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Translate &lt;br/&gt;Coronal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="5">
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_down.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="label_25">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_ctrl.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_27">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate &lt;br/&gt;Coronal&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_ctrl.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="7">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_down.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate &lt;br/&gt;Sagittal/Axial&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="3">
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="5">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_down.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5">
-         <widget class="QLabel" name="label_21">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_down.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="7">
-         <widget class="QLabel" name="label_22">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_down.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="4">
-         <widget class="QLabel" name="label_26">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_shift.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_up.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_17">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Translate &lt;br/&gt;Sagittal/Axial&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_left.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_23">
-          <property name="text">
-           <string>Scale*</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QLabel" name="label_29">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_plus.png</pixmap>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3">
-         <widget class="QLabel" name="label_30">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="pixmap">
-           <pixmap resource="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">:/org.mitk.gui.qt.geometrytools/resources/key_dash.png</pixmap>
+           <string>自定义</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_31">
+       <widget class="QPushButton" name="m_SettingCenterPointBtn">
         <property name="text">
-         <string>*currently does not work with images</string>
+         <string>设置旋转中心</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="17" column="0">
+   <item>
+    <widget class="QPushButton" name="clipPlaneBtn">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../../plan-bin/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc">
+       <normaloff>:/org.mitk.gui.qt.geometrytools/resources/key_alt.png</normaloff>:/org.mitk.gui.qt.geometrytools/resources/key_alt.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="saveBtn">
+     <property name="text">
+      <string>保存</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -579,10 +576,10 @@
   <tabstop>m_AnchorPointX</tabstop>
   <tabstop>m_AnchorPointY</tabstop>
   <tabstop>m_AnchorPointZ</tabstop>
-  <tabstop>m_UsageInfoCheckBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../../../mitk-super-master-release/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc"/>
+  <include location="../../../../../plan-bin/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc"/>
+  <include location="../../../../../plan-bin/MITK-build/Plugins/org.mitk.gui.qt.geometrytools/org_mitk_gui_qt_geometrytools_cached.qrc"/>
  </resources>
  <connections/>
 </ui>

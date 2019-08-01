@@ -23,7 +23,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <mitkIRenderWindowPartListener.h>
 
 #include "ui_QmitkImageNavigatorViewControls.h"
-
+// #include <service/event/ctkEventHandler.h>
 
 class QmitkStepperAdapter;
 
@@ -42,12 +42,13 @@ class QmitkStepperAdapter;
  */
 class QmitkImageNavigatorView :
     public QmitkAbstractView, public mitk::IRenderWindowPartListener,
-    public berry::ISizeProvider
+	public berry::ISizeProvider/*, public ctkEventHandler*/
 {
 
   // this is needed for all Qt objects that should have a MOC object (everything that derives from QObject)
-  Q_OBJECT
-
+  // everything that derives from QObject and wants to have signal/slots
+	Q_OBJECT
+// 	Q_INTERFACES(ctkEventHandler)
 public:
 
   static const std::string VIEW_ID;
@@ -61,13 +62,16 @@ public:
   virtual int GetSizeFlags(bool width) override;
   virtual int ComputePreferredSize(bool width, int /*availableParallel*/, int /*availablePerpendicular*/, int preferredResult) override;
 
+//   void handleEvent(const ctkEvent& event);
 protected slots:
 
   void OnMillimetreCoordinateValueChanged();
   void OnRefetch();
-
+  void OnPreprocessing();
+  void OnPlan();
+  void OnEmulation();
 protected:
-
+	bool bInit_;
   void SetFocus() override;
 
   void RenderWindowPartActivated(mitk::IRenderWindowPart *renderWindowPart) override;

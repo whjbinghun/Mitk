@@ -85,7 +85,8 @@ protected:
 
 
 private:
-
+public:
+	void confirmMidpoint();
 };
 
 } // namespace mitk

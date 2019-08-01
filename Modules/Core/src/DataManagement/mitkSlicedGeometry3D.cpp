@@ -932,8 +932,7 @@ void
 
       // Need a PlaneGeometry, a PlaneOperation and a reference frame to
       // carry out the re-orientation
-      if ( m_ReferenceGeometry && (planeGeometry && dynamic_cast<AbstractTransformGeometry*>(planeGeometry.GetPointer()) == nullptr) && restorePlaneOp )
-      {
+      if ( m_ReferenceGeometry && (planeGeometry && dynamic_cast<AbstractTransformGeometry*>(planeGeometry.GetPointer()) == nullptr) && restorePlaneOp ){
         // Clear all generated geometries and then rotate only the first slice.
         // The other slices will be re-generated on demand
 
@@ -945,10 +944,9 @@ void
         double centerOfRotationDistance =
           planeGeometry->SignedDistanceFromPlane( m_ReferenceGeometry->GetCenter() );
 
-        if ( centerOfRotationDistance > 0 )
-        {
-          m_DirectionVector = m_DirectionVector;
-        }
+        if ( centerOfRotationDistance > 0 ){
+			m_DirectionVector = m_DirectionVector;
+		}
         else
         {
           m_DirectionVector = -m_DirectionVector;

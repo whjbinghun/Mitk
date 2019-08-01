@@ -1933,5 +1933,12 @@ void WorkbenchWindow::ShellEventFilter::ShellDeactivated()
     wnd->GetWorkbenchImpl()->FireWindowDeactivated(wnd);
   }
 }
-
+void WorkbenchWindow::ActiveMeasurementView()
+{
+// 	GetActionBarAdvisor()->GetAction("org.mitk.views.measurement")->trigger();
+}
+void WorkbenchWindow::ActiveGraphcutView()
+{
+// 	GetActionBarAdvisor()->GetAction("org.mitk.views.imagegraphcut3dsegmentation")->trigger();
+}
 }

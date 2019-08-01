@@ -108,6 +108,8 @@ public:
     /** @brief Unselects the edit button if it is selected. */
     void UnselectEditButton();
 
+	bool GetLastCoord(float& x, float& y, float& z, int& index);
+	void ActiveCurrentRow(int row);
 public slots:
     void DeactivateInteractor(bool deactivate);
     void EnableEditButton(bool enabled);
@@ -120,7 +122,7 @@ signals:
     /// signal to inform about cleared or loaded point sets
     void PointListChanged();
 
-protected slots:
+public slots :
     void OnBtnSavePoints();
     void OnBtnLoadPoints();
     void RemoveSelectedPoint();

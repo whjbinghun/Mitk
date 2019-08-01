@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -56,6 +56,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include "usGetModuleContext.h"
 #include "usModuleContext.h"
 #include <usModuleInitialization.h>
+#include "berryWorkbenchPage.h"
 
 US_INITIALIZE_MODULE
 
@@ -147,6 +148,8 @@ struct QmitkMeasurementViewData
   QActionGroup* m_DrawActionsGroup;
   QTextBrowser* m_SelectedPlanarFiguresText;
   QPushButton* m_CopyToClipboard;
+  QPushButton* m_CrosshairRestore;
+  QPushButton* m_Confirm;
   QGridLayout* m_Layout;
 };
 
@@ -155,6 +158,7 @@ const std::string QmitkMeasurementView::VIEW_ID = "org.mitk.views.measurement";
 QmitkMeasurementView::QmitkMeasurementView()
  : d(new QmitkMeasurementViewData)
 {
+	m_CenterLine = NULL;
 }
 
 QmitkMeasurementView::~QmitkMeasurementView()
@@ -228,7 +232,9 @@ void QmitkMeasurementView::CreateQtPartControl(QWidget* parent)
   d->m_SelectedPlanarFiguresText = new QTextBrowser;
 
   // copy to clipboard button
-  d->m_CopyToClipboard = new QPushButton("Copy to Clipboard");
+  d->m_CopyToClipboard = new QPushButton(QStringLiteral("¸´ÖÆµ½¼ôÌù°å"));
+  d->m_Confirm = new QPushButton(QStringLiteral("È·ÈÏ"));
+  d->m_CrosshairRestore = new QPushButton(QStringLiteral("»Ö¸´Ê®×Ö¹â±ê"));
 
   d->m_Layout = new QGridLayout;
   d->m_Layout->addWidget(selectedImageLabel, 0, 0, 1, 1);
@@ -236,6 +242,8 @@ void QmitkMeasurementView::CreateQtPartControl(QWidget* parent)
   d->m_Layout->addWidget(d->m_DrawActionsToolBar, 1, 0, 1, 2);
   d->m_Layout->addWidget(d->m_SelectedPlanarFiguresText, 2, 0, 1, 2);
   d->m_Layout->addWidget(d->m_CopyToClipboard, 3, 0, 1, 2);
+  d->m_Layout->addWidget(d->m_Confirm, 4, 0, 1, 2);
+  d->m_Layout->addWidget(d->m_CrosshairRestore, 5, 0, 1, 2);
 
   d->m_Parent->setLayout(d->m_Layout);
 
@@ -256,6 +264,8 @@ void QmitkMeasurementView::CreateConnections()
   connect(d->m_DrawBezierCurve, SIGNAL(triggered(bool)), this, SLOT(OnDrawBezierCurveTriggered(bool)));
   connect(d->m_DrawSubdivisionPolygon, SIGNAL(triggered(bool)), this, SLOT(OnDrawSubdivisionPolygonTriggered(bool)));
   connect(d->m_CopyToClipboard, SIGNAL(clicked(bool)), this, SLOT(OnCopyToClipboard(bool)));
+  connect(d->m_CrosshairRestore, SIGNAL(clicked()), this, SLOT(OnEnableCrosshairNavigation()));
+  connect(d->m_Confirm, SIGNAL(clicked()), this, SLOT(OnConfirm()));
 }
 
 void QmitkMeasurementView::NodeAdded(const mitk::DataNode* node)
@@ -477,6 +487,45 @@ void QmitkMeasurementView::PlanarFigureInitialized()
 void QmitkMeasurementView::SetFocus()
 {
   d->m_SelectedImageLabel->setFocus();
+  MITK_INFO("org.mitk.views.measurement") << "SetFocus";
+  MITK_INFO("org.mitk.views.measurement") << "bClipPlaneMode:" << mitk::RenderingManager::GetInstance()->bClipPlaneMode;
+  bool mode = mitk::RenderingManager::GetInstance()->bClipPlaneMode;
+  if (mode)
+  {
+	  //Ôö¼ÓplaneÊý¾Ý½áµã
+	mitk::DataStorage::Pointer ds = this->GetDataStorage();
+	mitk::DataNode::Pointer plane = ds->GetNamedNode("Plane");
+	if (plane)
+	{
+		plane->SetSelected(true);
+
+		// make new selection and emulate selection for this
+		QList<mitk::DataNode::Pointer> selection;
+		selection.push_back(plane);
+		this->FireNodesSelected(selection);
+		this->OnSelectionChanged(berry::IWorkbenchPart::Pointer(NULL), selection);
+	}
+	else
+		this->AddFigureToDataStorage(mitk::PlanarLine::New(),QString("Plane"));
+  }
+  mode = mitk::RenderingManager::GetInstance()->bSettingCenterPoint;
+  if (mode)
+  {
+	  mitk::DataStorage::Pointer ds = this->GetDataStorage();
+	  mitk::DataNode::Pointer center = ds->GetNamedNode("Center");
+	  if (center)
+	  {
+		  center->SetSelected(true);
+
+		  // make new selection and emulate selection for this
+		  QList<mitk::DataNode::Pointer> selection;
+		  selection.push_back(center);
+		  this->FireNodesSelected(selection);
+		  this->OnSelectionChanged(berry::IWorkbenchPart::Pointer(NULL), selection);
+	  }
+	  else
+		  this->AddFigureToDataStorage(mitk::PlanarCircle::New(), QString("Center"));
+  }
 }
 
 void QmitkMeasurementView::OnSelectionChanged(berry::IWorkbenchPart::Pointer, const QList<mitk::DataNode::Pointer>& nodes)
@@ -647,8 +696,10 @@ void QmitkMeasurementView::OnDrawAngleTriggered(bool)
 
 void QmitkMeasurementView::OnDrawFourPointAngleTriggered(bool)
 {
+// 	m_CenterLine = mitk::PlanarFourPointAngle::New();
   this->AddFigureToDataStorage(
-    mitk::PlanarFourPointAngle::New(),
+	  /*m_CenterLine,*/
+	  mitk::PlanarFourPointAngle::New(),
     QString("Four Point Angle%1").arg(++d->m_FourPointAngleCounter));
 }
 
@@ -739,6 +790,11 @@ mitk::DataNode::Pointer QmitkMeasurementView::AddFigureToDataStorage(mitk::Plana
   d->m_DrawActionsToolBar->setEnabled(false);
   d->m_UnintializedPlanarFigure = true;
 
+//   mitk::PlanarFourPointAngle* wanted = dynamic_cast<mitk::PlanarFourPointAngle*>(figure);
+//   if (wanted)
+// 	  m_CenterLine = wanted;
+//   else
+// 	  m_CenterLine = NULL;
   return newNode;
 }
 
@@ -861,9 +917,52 @@ mitk::DataNode::Pointer QmitkMeasurementView::DetectTopMostVisibleImage()
 
   return currentNode;
 }
+void QmitkMeasurementView::OnConfirm()
+{
+	if (mitk::RenderingManager::GetInstance()->bClipPlaneMode)
+	{
+		OnEnableCrosshairNavigation();
+		mitk::RenderingManager::GetInstance()->bClipPlaneMode = false;
+
+		QString view_id = "org.mitk.views.geometrytools";
+		IViewPart::Pointer measurement = this->GetSite()->GetPage()->ShowView(view_id);
+	}
+
+	if (mitk::RenderingManager::GetInstance()->bSettingCenterPoint)
+	{
+		OnEnableCrosshairNavigation();
+		mitk::RenderingManager::GetInstance()->bSettingCenterPoint = false;
+
+		QString view_id = "org.mitk.views.geometrytools";
+		IViewPart::Pointer measurement = this->GetSite()->GetPage()->ShowView(view_id);
+	}
+}
+void QmitkMeasurementView::OnEnableCrosshairNavigation()
+{
+	// enable the crosshair navigation
+	// Re-enabling InteractionEventObservers that have been previously disabled for legacy handling of Tools
+	// in new interaction framework
+	for (const auto& displayInteractorConfig : m_DisplayInteractorConfigs)
+	{
+		if (displayInteractorConfig.first)
+		{
+			auto displayInteractor = static_cast<mitk::DisplayInteractor*>(us::GetModuleContext()->GetService<mitk::InteractionEventObserver>(displayInteractorConfig.first));
+
+			if (displayInteractor != nullptr)
+			{
+				// here the regular configuration is loaded again
+				displayInteractor->SetEventConfig(displayInteractorConfig.second);
+			}
+		}
+	}
+
+	m_DisplayInteractorConfigs.clear();
+	d->m_ScrollEnabled = true;
+}
 
 void QmitkMeasurementView::EnableCrosshairNavigation()
 {
+	return;
   // enable the crosshair navigation
   // Re-enabling InteractionEventObservers that have been previously disabled for legacy handling of Tools
   // in new interaction framework

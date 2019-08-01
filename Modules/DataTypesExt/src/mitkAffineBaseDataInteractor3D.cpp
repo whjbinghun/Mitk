@@ -82,6 +82,55 @@ void mitk::AffineBaseDataInteractor3D::ConnectActionsAndFunctions()
   CONNECT_FUNCTION("rotateUpModifierKey",RotateUpModifierKey);
   CONNECT_FUNCTION("rotateDownModifierKey",RotateDownModifierKey);
 }
+void mitk::AffineBaseDataInteractor3D::RotateUp()
+{
+	RotateUpKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::RotateDown()
+{
+	RotateDownKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::RotateLeft()
+{
+	RotateLeftKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::RotateRight()
+{
+	RotateRightKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::RotateUpModifier()
+{
+	RotateUpModifierKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::RotateDownModifier()
+{
+	RotateDownModifierKey(NULL, NULL);
+}
+
+void mitk::AffineBaseDataInteractor3D::TranslateUp()
+{
+	TranslateUpKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::TranslateDown()
+{
+	TranslateDownKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::TranslateLeft()
+{
+	TranslateLeftKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::TranslateRight()
+{
+	TranslateRightKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::TranslateUpModifier()
+{
+	TranslateUpModifierKey(NULL, NULL);
+}
+void mitk::AffineBaseDataInteractor3D::TranslateDownModifier()
+{
+	TranslateDownModifierKey(NULL, NULL);
+}
 
 void mitk::AffineBaseDataInteractor3D::TranslateUpKey(StateMachineAction*, InteractionEvent* interactionEvent)
 {
@@ -256,11 +305,15 @@ void mitk::AffineBaseDataInteractor3D::TranslateGeometry(mitk::Vector3D translat
 mitk::BaseGeometry* mitk::AffineBaseDataInteractor3D::GetUpdatedTimeGeometry(mitk::InteractionEvent* interactionEvent)
 {
   //Get the correct time geometry to support 3D + t
-  int timeStep = interactionEvent->GetSender()->GetTimeStep(this->GetDataNode()->GetData());
-  BaseGeometry* geometry = this->GetDataNode()->GetData()->GetUpdatedTimeGeometry()->GetGeometryForTimeStep( timeStep );
-  if(geometry == NULL)
-    MITK_ERROR << "Geometry is NULL. Cannot modify it.";
-  return geometry;
+//   int timeStep = interactionEvent->GetSender()->GetTimeStep(this->GetDataNode()->GetData());
+//   BaseGeometry* geometry = this->GetDataNode()->GetData()->GetUpdatedTimeGeometry()->GetGeometryForTimeStep( timeStep );
+//   if(geometry == NULL)
+//     MITK_ERROR << "Geometry is NULL. Cannot modify it.";
+//   return geometry;
+	BaseGeometry* geometry = this->GetDataNode()->GetData()->GetGeometry();
+	if (geometry == NULL)
+		MITK_ERROR << "Geometry is NULL. Cannot modify it.";
+	return geometry;
 }
 
 void mitk::AffineBaseDataInteractor3D::DataNodeChanged()
@@ -326,18 +379,18 @@ void mitk::AffineBaseDataInteractor3D::SelectObject(StateMachineAction*, Interac
 
 void mitk::AffineBaseDataInteractor3D::DeselectObject(StateMachineAction*, InteractionEvent* interactionEvent)
 {
-  DataNode::Pointer node = this->GetDataNode();
-
-  if (node.IsNull())
-    return;
-
-  mitk::ColorProperty::Pointer selectedColor = dynamic_cast<mitk::ColorProperty*>(node->GetProperty(deselectedColorPropertyName));
-  if ( selectedColor.IsNotNull() )
-  {
-    node->GetPropertyList()->SetProperty("color", selectedColor);
-  }
-
-  interactionEvent->GetSender()->GetRenderingManager()->RequestUpdateAll();
+//   DataNode::Pointer node = this->GetDataNode();
+// 
+//   if (node.IsNull())
+//     return;
+// 
+//   mitk::ColorProperty::Pointer selectedColor = dynamic_cast<mitk::ColorProperty*>(node->GetProperty(deselectedColorPropertyName));
+//   if ( selectedColor.IsNotNull() )
+//   {
+//     node->GetPropertyList()->SetProperty("color", selectedColor);
+//   }
+// 
+//   interactionEvent->GetSender()->GetRenderingManager()->RequestUpdateAll();
 
   return;
 }

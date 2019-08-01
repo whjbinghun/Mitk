@@ -169,7 +169,7 @@ public:
 
   using Object::Register;
 
-protected:
+ public:
 
   /**
    * Returns the action bar configurer.

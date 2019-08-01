@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -175,6 +175,13 @@ void QmitkPointListWidget::SetupUi()
   lay2->addWidget(m_MovePointDownBtn);
   lay2->addWidget(m_SavePointsBtn);
   lay2->addWidget(m_LoadPointsBtn);
+  m_ToggleAddPoint->setVisible(false);
+  m_AddPoint->setVisible(false);
+  m_RemovePointBtn->setVisible(false);
+  m_MovePointUpBtn->setVisible(false);
+  m_MovePointDownBtn->setVisible(false);
+  m_SavePointsBtn->setVisible(false);
+  m_LoadPointsBtn->setVisible(false);
 
   lay1->insertWidget(i,m_PointListView);
   this->setLayout(lay1);
@@ -226,6 +233,33 @@ void QmitkPointListWidget::OnBtnSavePoints()
                           QString("File writer reported problems writing %1\n\n"
                                   "PLEASE CHECK output file!").arg(aFilename) );
   }
+}
+void QmitkPointListWidget::ActiveCurrentRow(int row)
+{
+}
+bool QmitkPointListWidget::GetLastCoord(float& x, float& y, float& z, int& index)
+{
+	//ÉÏÒ»´ÎÌí¼ÓµÄµãµÄ°æ±¾
+	/*mitk::PointSet* pointSet = this->GetPointSet();
+	int numPoints = pointSet->GetSize();
+	if (numPoints > 0)
+	{
+		mitk::PointSet::PointsContainer::Iterator it = pointSet->End();
+		--it;
+		x = it.Value().GetElement(0);
+		y = it.Value().GetElement(1);
+		z = it.Value().GetElement(2);
+		index = numPoints - 1;
+		return true;
+	}*/
+	if (m_PointListView->m_activePointValid)
+	{
+		x = m_PointListView->m_activePoint.GetElement(0);
+		y = m_PointListView->m_activePoint.GetElement(1);
+		z = m_PointListView->m_activePoint.GetElement(2);
+		return true;
+	}
+	return false;
 }
 
 void QmitkPointListWidget::OnBtnLoadPoints()

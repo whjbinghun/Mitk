@@ -64,6 +64,11 @@ QmitkPointListView::QmitkPointListView( QWidget* parent )
            this, SLOT(OnListViewSelectionChanged(const QItemSelection& , const QItemSelection&)) );
 
   connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ctxMenu(const QPoint &)));
+
+//   connect( this, SIGNAL(clicked(const QModelIndex &)),
+// 		   this, SLOT(OnPointClicked(const QModelIndex &)) );
+
+  m_activePointValid = false;
 }
 
 QmitkPointListView::~QmitkPointListView()
@@ -93,6 +98,18 @@ QmitkStdMultiWidget* QmitkPointListView::GetMultiWidget() const
   return m_MultiWidget;
 }
 
+void QmitkPointListView::OnPointClicked(const QModelIndex & index)
+{
+	mitk::PointSet::PointType p;
+	mitk::PointSet::PointIdentifier id;
+	m_PointListModel->GetPointForModelIndex(index, p, id);
+
+	m_activePoint = m_PointListModel->GetPointSet()->GetPoint( id, m_PointListModel->GetTimeStep() );
+	m_activePointValid = true;
+
+	MITK_INFO("QmitkPointListView") << m_activePoint.GetElement(0) << "," << m_activePoint.GetElement(1) << "," << m_activePoint.GetElement(2);
+}
+
 void QmitkPointListView::OnPointDoubleClicked(const QModelIndex & index)
 {
   mitk::PointSet::PointType p;
@@ -107,7 +124,10 @@ void QmitkPointListView::OnPointSetSelectionChanged()
 {
   const mitk::PointSet* pointSet = m_PointListModel->GetPointSet();
   if (pointSet == NULL)
-    return;
+  {
+	  m_activePointValid = false;
+	  return;
+  }
 
   // update this view's selection status as a result to changes in the point set data structure
   m_SelfCall = true;
@@ -171,8 +191,11 @@ void QmitkPointListView::OnListViewSelectionChanged(const QItemSelection& select
           m_MultiWidget->MoveCrossToPosition(pointSet->GetPoint(it->Index(), m_PointListModel->GetTimeStep()));
         }
 
-        mitk::Point3D p = pointSet->GetPoint(it->Index(), m_PointListModel->GetTimeStep());
-
+		mitk::Point3D p = pointSet->GetPoint(it->Index(), m_PointListModel->GetTimeStep());
+		{
+			m_activePoint = p;
+			m_activePointValid = true;
+		}
         // remove the three ifs below after the SetSnc* methods have been removed
         if (m_Snc1 != NULL)
         {

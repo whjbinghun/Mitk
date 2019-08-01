@@ -95,7 +95,9 @@ public:
   }
 
   void FullScreenMode(bool state);
-
+  void simuKeyPressEvent(QKeyEvent* event){
+	  keyPressEvent(event);
+  }
 protected:
   // overloaded move handler
   virtual void moveEvent(QMoveEvent* event) override;
@@ -166,11 +168,12 @@ private:
   int GetDelta(QWheelEvent* we) const;
   bool m_ResendQtEvents;
 
-  QmitkRenderWindowMenu* m_MenuWidget;
-
   bool m_MenuWidgetActivated;
 
   unsigned int m_LayoutIndex;
+
+  public:
+	  QmitkRenderWindowMenu* m_MenuWidget;
 };
 
 #endif

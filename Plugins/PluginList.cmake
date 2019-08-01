@@ -41,7 +41,7 @@ set(MITK_PLUGINS
   org.mitk.gui.qt.dicom:OFF
   org.mitk.gui.qt.diffusionimaging:OFF
   org.mitk.gui.qt.dosevisualization:OFF
-  org.mitk.gui.qt.geometrytools:OFF
+  org.mitk.gui.qt.geometrytools:ON
   org.mitk.gui.qt.igtexamples:OFF
   org.mitk.gui.qt.igttracking:OFF
   org.mitk.gui.qt.openigtlink:OFF

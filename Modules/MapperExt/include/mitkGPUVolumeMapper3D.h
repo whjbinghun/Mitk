@@ -59,6 +59,11 @@ namespace mitk {
 class MITKMAPPEREXT_EXPORT GPUVolumeMapper3D : public VtkMapper
 {
 public:
+	static GPUVolumeMapper3D* mapper();
+	void leftHalfPart();
+	void rightHalfPart();
+	void fullRender();
+public:
   mitkClassMacro(GPUVolumeMapper3D, VtkMapper);
 
   itkFactorylessNewMacro(Self)
@@ -80,7 +85,7 @@ public:
   bool IsRAYEnabled( BaseRenderer *renderer = NULL );
 
   virtual void MitkRenderVolumetricGeometry(mitk::BaseRenderer* renderer) override;
-
+  vtkVolumeProperty *GetVtkVolumeGPUProp(mitk::BaseRenderer *renderer);
 protected:
 
   GPUVolumeMapper3D();
@@ -189,6 +194,8 @@ protected:
   };
 
   mitk::LocalStorageHandler<LocalStorage> m_LSH;
+  vtkMitkVolumeTextureMapper3D* m_MapperGPU;
+  static GPUVolumeMapper3D* mapper_;
 };
 
 } // namespace mitk

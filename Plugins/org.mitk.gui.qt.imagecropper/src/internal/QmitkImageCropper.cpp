@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -124,6 +124,8 @@ void QmitkImageCropper::CreateQtPartControl(QWidget* parent)
     m_Controls->m_SurroundingSpin->hide();
     m_Controls->m_BoxButton->setEnabled(true);
     m_Controls->warningLabel->setVisible(false);
+	m_Controls->lblInfo->setVisible(false);
+	m_Controls->chkInformation->setVisible(false);
     // create ui element connections
     this->CreateConnections();
   }
@@ -210,7 +212,7 @@ void QmitkImageCropper::CreateNewBoundingObject()
         m_ImageNode->SetVisibility(true);
         mitk::RenderingManager::GetInstance()->InitializeViews();
         mitk::RenderingManager::GetInstance()->RequestUpdateAll();
-        m_Controls->m_BoxButton->setText("Reset bounding box!");
+		m_Controls->m_BoxButton->setText(QStringLiteral("ÖØÖÃ°üÎ§ºÐ"));
         m_Controls->m_CropButton->setEnabled(true);
       }
     }
@@ -307,23 +309,39 @@ void QmitkImageCropper::CropImage()
 
   RemoveBoundingObjectFromNode();
 
+  /*{
+	opExchangeNodes*  doOp   = new opExchangeNodes(OP_EXCHANGE, m_ImageNode.GetPointer(),
+	m_ImageNode->GetData(),
+	resultImage);
+	opExchangeNodes* undoOp  = new opExchangeNodes(OP_EXCHANGE, m_ImageNode.GetPointer(),
+	resultImage,
+	m_ImageNode->GetData());
+
+	// TODO: MITK doesn't recognize that a new event happens in the next line,
+	//       because nothing happens in the render window.
+	//       As a result the undo action will happen together with the last action
+	//       recognized by MITK.
+	mitk::OperationEvent* operationEvent = new mitk::OperationEvent( m_Interface, doOp, undoOp, "Crop image");
+	mitk::UndoController::GetCurrentUndoModel()->SetOperationEvent( operationEvent ); // tell the undo controller about the action
+
+	ExecuteOperation(doOp); // execute action
+	}*/
   {
-    opExchangeNodes*  doOp   = new opExchangeNodes(OP_EXCHANGE, m_ImageNode.GetPointer(),
-      m_ImageNode->GetData(),
-      resultImage);
-    opExchangeNodes* undoOp  = new opExchangeNodes(OP_EXCHANGE, m_ImageNode.GetPointer(),
-      resultImage,
-      m_ImageNode->GetData());
+	  //Ôö¼Óµ½Êý¾ÝÁÐ±í
+	  if (m_OrganName != " ")
+	  {
+		  // create the node and store the result
+		  mitk::DataNode::Pointer newNode = mitk::DataNode::New();
+		  newNode->SetData(resultImage);
 
-    // TODO: MITK doesn't recognize that a new event happens in the next line,
-    //       because nothing happens in the render window.
-    //       As a result the undo action will happen together with the last action
-    //       recognized by MITK.
-    mitk::OperationEvent* operationEvent = new mitk::OperationEvent( m_Interface, doOp, undoOp, "Crop image");
-    mitk::UndoController::GetCurrentUndoModel()->SetOperationEvent( operationEvent ); // tell the undo controller about the action
+		  newNode->SetProperty("name", mitk::StringProperty::New(m_OrganName.toStdString()));
 
-    ExecuteOperation(doOp); // execute action
+		  // add result to the storage
+		  this->GetDataStorage()->Add(newNode);
+	  }
   }
+
+
 
   m_Controls->m_BoxButton->setEnabled(true);
   m_Controls->m_CropButton->setEnabled(false);
@@ -335,7 +353,7 @@ void QmitkImageCropper::CreateBoundingObject()
   items << tr("Cuboid") << tr("Ellipsoid") << tr("Cylinder") << tr("Cone");
 
   bool ok;
-  QString item = QInputDialog::getItem(m_Parent, tr("Select Bounding Object"), tr("Type of Bounding Object:"), items, 0, false, &ok);
+  QString item = QInputDialog::getItem(m_Parent, QStringLiteral("ÉèÖÃ°üÎ§Ìå"), QStringLiteral("°üÎ§ÌåÀàÐÍ:"), items, 0, false, &ok);
 
   if (!ok)
     return;
@@ -365,6 +383,26 @@ void QmitkImageCropper::CreateBoundingObject()
   affineDataInteractor->SetDataNode(m_CroppingObjectNode);
   m_CroppingObjectNode->SetBoolProperty("pickable", true);
 
+  QStringList organs;
+  QString tmpStr = QStringLiteral("÷Ä¹Ç");
+  organs << QStringLiteral("×ó¹É¹Ç") << QStringLiteral("ÓÒ¹É¹Ç") << QStringLiteral("×ó÷Ä¹Ç") << QStringLiteral("ÓÒ÷Ä¹Ç") << tmpStr;
+  item = QInputDialog::getItem(m_Parent, QStringLiteral("ÉèÖÃ²ÃÇÐÇøÓò"), QStringLiteral("ÇøÓòÃû³Æ:"), organs, 0, false, &ok);
+
+  if (!ok){
+	  m_OrganName = " ";
+	  return;
+  }
+
+  if (item == QStringLiteral("×ó¹É¹Ç"))
+	  m_OrganName = "Left_Femur";
+  else if(item == QStringLiteral("ÓÒ¹É¹Ç"))
+	  m_OrganName = "Right_Femur";
+  else if(item == QStringLiteral("×ó÷Ä¹Ç"))
+	  m_OrganName = "Left_Ilium";
+  else if(item == QStringLiteral("ÓÒ÷Ä¹Ç"))
+	  m_OrganName = "Right_Ilium";
+  else
+	  m_OrganName = " ";
 }
 
 void QmitkImageCropper::OnSelectionChanged(std::vector<mitk::DataNode*> nodes)
@@ -430,7 +468,7 @@ void QmitkImageCropper::RemoveBoundingObjectFromNode()
       //mitk::GlobalInteraction::GetInstance()->RemoveInteractor(m_AffineInteractor);
       m_CroppingObject = NULL;
     }
-    m_Controls->m_BoxButton->setText("New bounding box!");
+	m_Controls->m_BoxButton->setText(QStringLiteral("ÐÂµÄ°üÎ§ºÐ"));
   }
 }
 

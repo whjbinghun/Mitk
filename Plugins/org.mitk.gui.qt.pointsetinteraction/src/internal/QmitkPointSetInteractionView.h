@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -21,6 +21,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <QmitkFunctionality.h>
 #include <mitkWeakPointer.h>
 #include <mitkDataNode.h>
+#include <QListWidgetItem>
 
 namespace Ui
 {
@@ -35,6 +36,15 @@ class QmitkPointSetInteractionView : public QmitkFunctionality
   Q_OBJECT
 
 public:
+	typedef struct 
+	{
+		float x;
+		float y;
+		float z;
+		bool flag;
+		//¶ÔÓ¦ÁÐ±íÖÐµÄË÷Òý
+		int index;
+	}Marker;
   QmitkPointSetInteractionView(QObject *parent=0);
   virtual ~QmitkPointSetInteractionView();
 
@@ -49,8 +59,15 @@ public:
   virtual void StdMultiWidgetClosed(QmitkStdMultiWidget& stdMultiWidget) override;
 protected slots:
   void OnAddPointSetClicked();
+  void doubleClickedPelvis(QListWidgetItem* item);
+  void doubleClickedFemur(QListWidgetItem* item);
+  void clickedPelvis(QListWidgetItem* item);
+  void clickedFemur(QListWidgetItem* item);
+  void SavePoints();
 protected:
   Ui::QmitkPointSetInteractionControls * m_Controls;
   mitk::WeakPointer<mitk::DataNode> m_SelectedPointSetNode;
+  std::vector<Marker> pelvisMarkers;
+  std::vector<Marker> femurMarkers;
 };
 #endif // !defined(QmitkPointSetInteraction_H__INCLUDED)

@@ -41,9 +41,11 @@ class QmitkLevelWindowWidget;
 class QmitkRenderWindow;
 class vtkCornerAnnotation;
 class vtkMitkRectangleProp;
-
+class QmitkImageNavigatorView;
+class GraphcutView;
 namespace mitk {
 class RenderingManager;
+class AffineBaseDataInteractor3D;
 }
 
 /// \ingroup QmitkModule
@@ -52,6 +54,7 @@ class MITKQTWIDGETS_EXPORT QmitkStdMultiWidget : public QWidget
   Q_OBJECT
 
 public:
+	static QmitkStdMultiWidget* app();
   QmitkStdMultiWidget(QWidget* parent = 0, Qt::WindowFlags f = 0, mitk::RenderingManager* renderingManager = 0, mitk::BaseRenderer::RenderingMode::Type renderingMode = mitk::BaseRenderer::RenderingMode::Standard, const QString& name = "stdmulti");
   virtual ~QmitkStdMultiWidget();
 
@@ -133,7 +136,13 @@ public:
 
   bool IsCornerAnnotationVisible(void) const;
 
+public:
+	//all plugins
+	mitk::AffineBaseDataInteractor3D* affineDataInteractor;
+	QmitkImageNavigatorView* navigator;
+	GraphcutView* graphcut;
 protected:
+	void DisableCrosshairNavigation();
 
   void UpdateAllWidgets();
 
@@ -142,7 +151,11 @@ protected:
   mitk::DataNode::Pointer GetTopLayerNode(mitk::DataStorage::SetOfObjects::ConstPointer nodes);
 
 public slots:
-
+	void turnOnDDR();
+	void rightPart();
+	void leftPart();
+	void refLine();
+	void planning();
   /// Receives the signal from HandleCrosshairPositionEvent, executes the StatusBar update
   void HandleCrosshairPositionEventDelayed();
 
@@ -251,7 +264,9 @@ signals:
   void WidgetPlaneModeChange(int);
   void WidgetNotifyNewCrossHairMode(int);
   void Moved();
-
+  void SigTurnOnDDR();
+  void SigRightPart();
+  void SigPlanning();
 public:
 
   /** Define RenderWindow (public)*/
@@ -333,6 +348,7 @@ public:
    */
   std::pair<mitk::Color, mitk::Color> GetGradientColors(unsigned int widgetNumber);
 protected:
+	static QmitkStdMultiWidget* app_;
 
   QHBoxLayout* QmitkStdMultiWidgetLayout;
 
@@ -390,6 +406,7 @@ protected:
   vtkSmartPointer<vtkMitkRectangleProp> m_RectangleProps[4];
 
   bool m_PendingCrosshairPositionEvent;
+  bool m_PendingCrosshairPosition;
   bool m_CrosshairNavigationEnabled;
   /**
    * @brief CreateCornerAnnotation helper method to create a corner annotation.

@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -126,7 +126,8 @@ protected slots:
 
   /// delete all points in the list in the current timestep
   void ClearPointListTS();
-
+  //µ¥»÷Ñ¡Ôñ
+  void OnPointClicked(const QModelIndex & index);
 protected:
 
   void keyPressEvent( QKeyEvent * e ) override; ///< react to F2, F3 and DEL keys
@@ -148,7 +149,9 @@ protected:
   /// used to position the planes on a selected point
   QmitkStdMultiWidget*    m_MultiWidget;
   QLabel*                m_TimeStepFaderLabel;
-
+public:
+  mitk::PointSet::PointType m_activePoint;
+  bool m_activePointValid;
 };
 
 #endif

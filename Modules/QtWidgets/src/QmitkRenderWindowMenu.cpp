@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -15,7 +15,6 @@ See LICENSE.txt or http://www.mitk.org for details.
 ===================================================================*/
 
 #include "QmitkRenderWindowMenu.h"
-
 #include "mitkResliceMethodProperty.h"
 #include "mitkProperties.h"
 
@@ -32,7 +31,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include<QWidgetAction>
 
 #include <QTimer>
-
+#include <QKeyEvent>
 #include "QmitkStdMultiWidget.h"
 
 //#include"iconClose.xpm"
@@ -44,6 +43,8 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include"iconLeaveFullScreen.xpm"
 
 #include <math.h>
+
+#include "mitkAffineBaseDataInteractor3D.h"
 
 #ifdef QMITK_USE_EXTERNAL_RENDERWINDOW_MENU
 QmitkRenderWindowMenu::QmitkRenderWindowMenu(QWidget *parent, Qt::WindowFlags f, mitk::BaseRenderer *b, QmitkStdMultiWidget* mw )
@@ -153,7 +154,6 @@ void QmitkRenderWindowMenu::CreateMenuWidget()
   m_SettingsButton->setIcon(QIcon(QPixmap(iconSettings_xpm)));
   m_SettingsButton->setAutoRaise(true);
   layout->addWidget( m_SettingsButton );
-
   //Create Connections -- coming soon?
   connect( m_FullScreenButton, SIGNAL( clicked(bool) ), this, SLOT(OnFullScreenButton(bool)) );
   connect( m_SettingsButton, SIGNAL( clicked(bool) ), this, SLOT(OnSettingsButton(bool)) );
@@ -821,7 +821,7 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
   crosshairModesMenu->clear();
 
   QAction* resetViewAction = new QAction(crosshairModesMenu);
-  resetViewAction->setText("Reset view");
+  resetViewAction->setText(QStringLiteral("ÖØÖÃÊÓ½Ç"));
   crosshairModesMenu->addAction( resetViewAction );
   connect( resetViewAction, SIGNAL(triggered()), this, SIGNAL(ResetView()));
 
@@ -843,7 +843,7 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
 
 
     QAction* showHideCrosshairVisibilityAction = new QAction(crosshairModesMenu);
-    showHideCrosshairVisibilityAction->setText("Show crosshair");
+	showHideCrosshairVisibilityAction->setText( QStringLiteral("ÏÔÊ¾Ê®×ÖÏß") );
     showHideCrosshairVisibilityAction->setCheckable(true);
     showHideCrosshairVisibilityAction->setChecked(currentState);
     crosshairModesMenu->addAction( showHideCrosshairVisibilityAction );
@@ -866,7 +866,7 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
     noCrosshairRotation->setCheckable(true);
     noCrosshairRotation->setChecked(currentCrosshairRotationMode==0);
     noCrosshairRotation->setData( 0 );
-    crosshairModesMenu->addAction( noCrosshairRotation );
+//     crosshairModesMenu->addAction( noCrosshairRotation );
 
     QAction* singleCrosshairRotation = new QAction(crosshairModesMenu);
     singleCrosshairRotation->setActionGroup(rotationModeActionGroup);
@@ -874,11 +874,11 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
     singleCrosshairRotation->setCheckable(true);
     singleCrosshairRotation->setChecked(currentCrosshairRotationMode==1);
     singleCrosshairRotation->setData( 1  );
-    crosshairModesMenu->addAction( singleCrosshairRotation );
+//     crosshairModesMenu->addAction( singleCrosshairRotation );
 
     QAction* coupledCrosshairRotation = new QAction(crosshairModesMenu);
     coupledCrosshairRotation->setActionGroup(rotationModeActionGroup);
-    coupledCrosshairRotation->setText("Coupled crosshair rotation");
+	coupledCrosshairRotation->setText( QStringLiteral("Êý¾Ý°ÚÕý") );
     coupledCrosshairRotation->setCheckable(true);
     coupledCrosshairRotation->setChecked(currentCrosshairRotationMode==2);
     coupledCrosshairRotation->setData( 2 );
@@ -890,7 +890,7 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
     swivelMode->setCheckable(true);
     swivelMode->setChecked(currentCrosshairRotationMode==3);
     swivelMode->setData( 3 );
-    crosshairModesMenu->addAction( swivelMode );
+//     crosshairModesMenu->addAction( swivelMode );
 
     connect( rotationModeActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(OnCrosshairRotationModeSelected(QAction*)) );
   }
@@ -914,7 +914,7 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
     QAction* thickSlicesGroupSeparator = new QAction(crosshairModesMenu);
     thickSlicesGroupSeparator->setSeparator(true);
     thickSlicesGroupSeparator->setText("ThickSlices mode");
-    crosshairModesMenu->addAction( thickSlicesGroupSeparator );
+//     crosshairModesMenu->addAction( thickSlicesGroupSeparator );
 
     QActionGroup* thickSlicesActionGroup = new QActionGroup(crosshairModesMenu);
     thickSlicesActionGroup->setExclusive(true);
@@ -961,9 +961,244 @@ void QmitkRenderWindowMenu::OnCrossHairMenuAboutToShow()
     QWidgetAction *m_TSSliderAction = new QWidgetAction(crosshairModesMenu);
     m_TSSliderAction->setDefaultWidget(_TSWidget);
     crosshairModesMenu->addAction(m_TSSliderAction);
+
+	QWidget* transformWidget = new QWidget;
+
+	QGridLayout* transformLayout = new QGridLayout;
+	QPushButton* upBtn = new QPushButton("", transformWidget);
+	upBtn->setIcon(QIcon(":/Qmitk/arrow_up.png"));
+	upBtn->setIconSize(QSize(60, 60));
+	QPushButton* downBtn = new QPushButton("", transformWidget);
+	downBtn->setIcon(QIcon(":/Qmitk/arrow_down.png"));
+	downBtn->setIconSize(QSize(60, 60));
+	QPushButton* leftBtn = new QPushButton("", transformWidget);
+	leftBtn->setIcon(QIcon(":/Qmitk/arrow_left.png"));
+	leftBtn->setIconSize(QSize(60, 60));
+	QPushButton* rightBtn = new QPushButton("", transformWidget);
+	rightBtn->setIcon(QIcon(":/Qmitk/arrow_right.png"));
+	rightBtn->setIconSize(QSize(60, 60));
+	
+	QPushButton* clockwiseBtn = new QPushButton("", transformWidget);
+	clockwiseBtn->setIcon(QIcon(":/Qmitk/clockwise.png"));
+	QPushButton* anticlockwiseBtn = new QPushButton("", transformWidget);
+	anticlockwiseBtn->setIcon(QIcon(":/Qmitk/anticlockwise.png"));
+
+	QVBoxLayout* rotationLayout = new QVBoxLayout;
+	rotationLayout->addWidget(clockwiseBtn);
+	rotationLayout->addWidget(anticlockwiseBtn);
+
+	clockwiseBtn->setIconSize(clockwiseBtn->size());
+	anticlockwiseBtn->setIconSize(anticlockwiseBtn->size());
+
+	transformLayout->addWidget(upBtn, 1, 1);
+	transformLayout->addWidget(leftBtn, 2, 0);
+	transformLayout->addLayout(rotationLayout, 2, 1);
+	transformLayout->addWidget(rightBtn, 2, 2);
+	transformLayout->addWidget(downBtn, 3, 1);
+
+	transformWidget->setLayout(transformLayout);
+	QWidgetAction *m_transformAction = new QWidgetAction(crosshairModesMenu);
+	m_transformAction->setDefaultWidget(transformWidget);
+	crosshairModesMenu->addAction(m_transformAction);
+
+	connect(upBtn, SIGNAL(clicked()), this, SLOT(OnUp()));
+	connect(downBtn, SIGNAL(clicked()), this, SLOT(OnDown()));
+	connect(leftBtn, SIGNAL(clicked()), this, SLOT(OnLeft()));
+	connect(rightBtn, SIGNAL(clicked()), this, SLOT(OnRight()));
+	connect(anticlockwiseBtn, SIGNAL(clicked()), this, SLOT(OnAnticlockwise()));
+	connect(clockwiseBtn, SIGNAL(clicked()), this, SLOT(OnClockwise()));
   }
 }
+int QmitkRenderWindowMenu::getLayoutEnum()
+{
+	int nLayout = LAYOUT_AXIAL;
+	switch (m_Layout)
+	{
+	case AXIAL:
+	{
+		nLayout = LAYOUT_AXIAL;
+		break;
+	}
 
+	case SAGITTAL:
+	{
+		nLayout = LAYOUT_SAGITTAL;
+		break;
+	}
+	case CORONAL:
+	{
+		nLayout = LAYOUT_CORONAL;
+		break;
+	}
+	case THREE_D:
+	{
+		nLayout = LAYOUT_BIG3D;
+		break;
+	}
+	}
+
+	return nLayout;
+}
+void QmitkRenderWindowMenu::simuKeyPress(TransformType type, int layoutDesign)
+{
+	QKeyEvent *event = NULL;
+	switch (layoutDesign)
+	{
+	case LAYOUT_AXIAL:
+	{
+		{
+			if (type == TRANSFORM_LEFT)
+			{
+				event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+				MITK_INFO << "simuKeyPress_AXIAL_LEFT";
+			}
+			else if (type == TRANSFORM_RIGHT)
+			{
+				event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+				MITK_INFO << "simuKeyPress_AXIAL_RIGHT";
+			}
+		}
+		break;
+	}
+
+	case LAYOUT_SAGITTAL:
+	{
+		break;
+	}
+	case LAYOUT_CORONAL:
+	{
+		{
+			if (type == TRANSFORM_LEFT)
+			{
+				event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Left, Qt::NoModifier);
+			}
+			else if (type == TRANSFORM_RIGHT)
+			{
+				event = new QKeyEvent(QEvent::KeyPress, Qt::Key_Right, Qt::NoModifier);
+			}
+		}
+		break;
+	}
+	case LAYOUT_BIG3D:
+	{
+		break;
+	}
+	}
+	if (event){
+		// 		QCoreApplication::postEvent(m_MultiWidget, event);
+		MITK_INFO << "simuKeyPressEvent";
+		m_MultiWidget->GetRenderWindow4()->setFocus();
+		m_MultiWidget->GetRenderWindow4()->simuKeyPressEvent(event);
+	}
+}
+std::string QmitkRenderWindowMenu::getLayoutStr()
+{
+	std::string ret = "";
+	switch (m_Layout)
+	{
+	case AXIAL:
+	{
+		ret = "LAYOUT_AXIAL";
+		break;
+	}
+
+	case SAGITTAL:
+	{
+		ret = "LAYOUT_SAGITTAL";
+		break;
+	}
+	case CORONAL:
+	{
+		ret = "LAYOUT_CORONAL";
+		break;
+	}
+	case THREE_D:
+	{
+		ret = "LAYOUT_BIG3D";
+		break;
+	}
+	}
+	return ret;
+}
+void QmitkRenderWindowMenu::OnLeft()
+{
+// 	MITK_INFO << getLayoutStr() << "_Left";
+// 	emit SignalTransformLeft(getLayoutEnum());
+// 	simuKeyPress(TRANSFORM_LEFT, getLayoutEnum());
+	if (m_MultiWidget && m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_AXIAL || nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->TranslateLeft();
+		else if (nLayout == LAYOUT_SAGITTAL)
+			m_MultiWidget->affineDataInteractor->TranslateDownModifier();
+	}
+}
+void QmitkRenderWindowMenu::OnRight()
+{
+// 	MITK_INFO << getLayoutStr() << "_Right";
+// 	emit SignalTransformRight(getLayoutEnum());
+// 	simuKeyPress(TRANSFORM_RIGHT, getLayoutEnum());
+	if (m_MultiWidget&& m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_AXIAL || nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->TranslateRight();
+		else if (nLayout == LAYOUT_SAGITTAL)
+			m_MultiWidget->affineDataInteractor->TranslateUpModifier();
+	}
+}
+void QmitkRenderWindowMenu::OnUp()
+{
+// 	MITK_INFO << getLayoutStr() << "_Up";
+// 	emit SignalTransformUp(getLayoutEnum());
+	if (m_MultiWidget&& m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_SAGITTAL || nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->TranslateUp();
+		else if (nLayout == LAYOUT_AXIAL)
+			m_MultiWidget->affineDataInteractor->TranslateDownModifier();
+	}
+}
+void QmitkRenderWindowMenu::OnDown()
+{
+// 	MITK_INFO << getLayoutStr() << "_Down";
+// 	emit SignalTransformDown(getLayoutEnum());
+	if (m_MultiWidget&& m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_SAGITTAL || nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->TranslateDown();
+		else if (nLayout == LAYOUT_AXIAL)
+			m_MultiWidget->affineDataInteractor->TranslateUpModifier();
+
+	}
+}
+void QmitkRenderWindowMenu::OnAnticlockwise()
+{
+// 	MITK_INFO << getLayoutStr() << "_Anticlockwise";
+// 	emit SignalTransformAnticlockwise(getLayoutEnum());
+	if (m_MultiWidget&& m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_AXIAL)
+			m_MultiWidget->affineDataInteractor->RotateLeft();
+		else if (nLayout == LAYOUT_SAGITTAL)
+			m_MultiWidget->affineDataInteractor->RotateDown();
+		else if (nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->RotateDownModifier();
+	}
+}
+void QmitkRenderWindowMenu::OnClockwise()
+{
+// 	MITK_INFO << getLayoutStr() << "_Clockwise";
+// 	emit SignalTransformClockwise(getLayoutEnum());
+	if (m_MultiWidget&& m_MultiWidget->affineDataInteractor){
+		int nLayout = getLayoutEnum();
+		if (nLayout == LAYOUT_AXIAL)
+			m_MultiWidget->affineDataInteractor->RotateRight();
+		else if (nLayout == LAYOUT_SAGITTAL)
+			m_MultiWidget->affineDataInteractor->RotateUp();
+		else if (nLayout == LAYOUT_CORONAL)
+			m_MultiWidget->affineDataInteractor->RotateUpModifier();
+	}
+}
 void QmitkRenderWindowMenu::NotifyNewWidgetPlanesMode( int mode )
 {
   currentCrosshairRotationMode = mode;

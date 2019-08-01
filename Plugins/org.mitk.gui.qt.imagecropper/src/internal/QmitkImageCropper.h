@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -208,5 +208,8 @@ private:
 
   //Interface class for undo redo
   mitk::ImageCropperEventInterface* m_Interface;
+
+  //µ±Ç°²Ã¼ôºóÌåÊý¾ÝµÄÃû³Æ
+  QString m_OrganName;
 };
 #endif // !defined(QMITK_IMAGECROPPER_H__INCLUDED)

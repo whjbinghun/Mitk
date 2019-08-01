@@ -51,6 +51,20 @@ public:
   void RotateGeometry(mitk::ScalarType angle, int rotationaxis, mitk::BaseGeometry* geometry);
   void ScaleGeometry(mitk::Point3D newScale, mitk::BaseGeometry* geometry);
   mitk::BaseGeometry *GetUpdatedTimeGeometry(mitk::InteractionEvent *interactionEvent);
+public:
+	void TranslateUp();
+	void TranslateDown();
+	void TranslateLeft();
+	void TranslateRight();
+	void TranslateUpModifier();
+	void TranslateDownModifier();
+
+	void RotateUp();
+	void RotateDown();
+	void RotateLeft();
+	void RotateRight();
+	void RotateUpModifier();
+	void RotateDownModifier();
 protected:
   AffineBaseDataInteractor3D();
   virtual ~AffineBaseDataInteractor3D();

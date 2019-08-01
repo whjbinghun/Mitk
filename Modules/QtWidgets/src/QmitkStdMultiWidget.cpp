@@ -46,8 +46,14 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <vtkMitkRectangleProp.h>
 #include "mitkPixelTypeMultiplex.h"
 #include "mitkImagePixelReadAccessor.h"
+#include <mitkAffineBaseDataInteractor3D.h>
 
 #include <iomanip>
+
+#include "mitkResliceMethodProperty.h"
+#include "mitkPlanarCircle.h"
+
+QmitkStdMultiWidget* QmitkStdMultiWidget::app_ = 0;
 
 QmitkStdMultiWidget::QmitkStdMultiWidget(QWidget* parent, Qt::WindowFlags f, mitk::RenderingManager* renderingManager, mitk::BaseRenderer::RenderingMode::Type renderingMode, const QString& name)
 : QWidget(parent, f),
@@ -73,6 +79,8 @@ mitkWidget4Container(NULL),
 m_PendingCrosshairPositionEvent(false),
 m_CrosshairNavigationEnabled(false)
 {
+	m_PendingCrosshairPosition = false;
+	affineDataInteractor = NULL;
   /******************************************************
    * Use the global RenderingManager if none was specified
    * ****************************************************/
@@ -222,6 +230,12 @@ m_CrosshairNavigationEnabled(false)
 
   //Activate Widget Menu
   this->ActivateMenuWidget( true );
+
+  app_ = this;
+}
+
+QmitkStdMultiWidget* QmitkStdMultiWidget::app() {
+	return app_;
 }
 
 void QmitkStdMultiWidget::InitializeWidget()
@@ -1099,9 +1113,12 @@ void QmitkStdMultiWidget::changeLayoutTo2x2Dand3DWidget()
   m_SubSplit2 = new QSplitter( m_LayoutSplit );
 
   //add Widgets to splitter
-  m_SubSplit1->addWidget( mitkWidget1Container );
-  m_SubSplit1->addWidget( mitkWidget2Container );
-  m_SubSplit2->addWidget( mitkWidget4Container );
+//   m_SubSplit1->addWidget( mitkWidget1Container );
+//   m_SubSplit1->addWidget( mitkWidget2Container );
+//   m_SubSplit2->addWidget( mitkWidget4Container );
+  m_SubSplit1->addWidget(mitkWidget2Container);
+  m_SubSplit1->addWidget(mitkWidget3Container);
+  m_SubSplit2->addWidget(mitkWidget4Container);
 
   //set Splitter Size
   QList<int> splitterSize;
@@ -1114,9 +1131,12 @@ void QmitkStdMultiWidget::changeLayoutTo2x2Dand3DWidget()
   m_MainSplit->show();
 
   //show/hide Widgets
-  if ( mitkWidget1->isHidden() ) mitkWidget1->show();
-  if ( mitkWidget2->isHidden() ) mitkWidget2->show();
-  mitkWidget3->hide();
+//   if ( mitkWidget1->isHidden() ) mitkWidget1->show();
+//   if ( mitkWidget2->isHidden() ) mitkWidget2->show();
+//   mitkWidget3->hide();
+  mitkWidget1->hide();
+  if (mitkWidget2->isHidden()) mitkWidget2->show();
+  if (mitkWidget3->isHidden()) mitkWidget3->show();
   if ( mitkWidget4->isHidden() ) mitkWidget4->show();
 
   m_Layout = LAYOUT_2X_2D_AND_3D_WIDGET;
@@ -1956,6 +1976,104 @@ void QmitkStdMultiWidget::DisableColoredRectangles()
   m_RectangleProps[2]->SetVisibility(0);
   m_RectangleProps[3]->SetVisibility(0);
 }
+void QmitkStdMultiWidget::refLine()
+{
+	MITK_INFO("widget.stdmulti") << "refLine";
+	mitk::DataStorage::Pointer ds = mitk::BaseRenderer::GetInstance(mitkWidget1->GetRenderWindow())->GetDataStorage();
+	mitk::DataNode* circle1 = ds->GetNamedNode("Circle1");
+	mitk::DataNode* circle2 = ds->GetNamedNode("Circle2");
+	if (circle1 && circle2 )
+	{
+		mitk::PlanarCircle* circle_1 = dynamic_cast<mitk::PlanarCircle*>( circle1->GetData() );
+		mitk::Point3D center1 = circle_1->GetWorldControlPoint(0);
+
+		mitk::PlanarCircle* circle_2 = dynamic_cast<mitk::PlanarCircle*>(circle2->GetData());
+		mitk::Point3D center2 = circle_2->GetWorldControlPoint(0);
+
+		MITK_INFO("widget.stdmulti.center1") << center1[0] << "," << center1[1] << "," << center1[2];
+		MITK_INFO("widget.stdmulti.center2") << center2[0] << "," << center2[1] << "," << center2[2];
+
+		mitk::PointSet::Pointer line = mitk::PointSet::New();
+		mitk::PointSet::PointType start, end;
+		FillVector3D(start, center1[0], center1[1], center1[2]);
+		FillVector3D(end, center2[0], center2[1], center2[2]);
+		line->InsertPoint(0, start);
+		line->InsertPoint(1, end);
+		
+		mitk::DataNode::Pointer lineNode = mitk::DataNode::New();
+		lineNode->SetData(line);
+		lineNode->SetBoolProperty("show points", false);
+		lineNode->SetBoolProperty("show contour", true);
+		lineNode->SetName("Refline");
+
+		lineNode->SetVisibility(false, mitkWidget1->GetRenderer());
+		lineNode->SetVisibility(false, mitkWidget2->GetRenderer());
+		lineNode->SetVisibility(false, mitkWidget3->GetRenderer());
+
+		ds->Add(lineNode);
+	}
+}
+void QmitkStdMultiWidget::rightPart()
+{
+	MITK_INFO("widget.stdmulti") << "rightPart";
+	emit SigRightPart();
+
+	//切换到右半部分
+	mitk::Point3D rightPartCoord;
+	rightPartCoord[0] = 90.81;
+	rightPartCoord[1] = 187.81;
+	rightPartCoord[2] = 1445.28;
+	MoveCrossToPosition(rightPartCoord);
+}
+void QmitkStdMultiWidget::leftPart()
+{
+	//切换到左半部分
+	mitk::Point3D leftPartCoord;
+	leftPartCoord[0] = -93.40;
+	leftPartCoord[1] = 199.51;
+	leftPartCoord[2] = 1442.16;
+	MoveCrossToPosition(leftPartCoord);
+}
+void QmitkStdMultiWidget::planning()
+{
+	MITK_INFO("widget.stdmulti") << "planning";
+	emit SigPlanning();
+
+	GetRenderWindow4()->m_MenuWidget->OnChangeLayoutToDefault(true);
+	m_RenderingManager->RequestUpdateAll();
+}
+void QmitkStdMultiWidget::turnOnDDR()
+{
+	MITK_INFO("widget.stdmulti") << "turnOnDDR";
+	emit SigTurnOnDDR();
+
+	//改变布局
+// 	GetRenderWindow4()->m_MenuWidget->OnChangeLayoutTo2x2Dand3DWidget(true);
+// 	GetRenderWindow4()->m_MenuWidget->SetCrossHairVisibility(false);
+
+// 	leftPart();
+
+// 	m_PlaneNode1->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New(1));
+// 	m_PlaneNode1->SetProperty("reslice.thickslices.num", mitk::IntProperty::New(9));
+// 	m_PlaneNode1->SetProperty("reslice.thickslices.showarea", mitk::BoolProperty::New(true));
+// 	
+// 	m_PlaneNode2->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New(1));
+// 	m_PlaneNode2->SetProperty("reslice.thickslices.num", mitk::IntProperty::New(9));
+// 	m_PlaneNode2->SetProperty("reslice.thickslices.showarea", mitk::BoolProperty::New(true));
+// 	
+// 	m_PlaneNode3->SetProperty("reslice.thickslices", mitk::ResliceMethodProperty::New(1));
+// 	m_PlaneNode3->SetProperty("reslice.thickslices.num", mitk::IntProperty::New(9));
+// 	m_PlaneNode3->SetProperty("reslice.thickslices.showarea", mitk::BoolProperty::New(true));
+// 
+// 	DisableCrosshairNavigation();
+	//设置窗宽，窗位
+	mitk::LevelWindow levelwindow;
+	mitk::ScalarType level = 1200.f;
+	mitk::ScalarType window = 2400.f;
+	levelwindow.SetLevelWindow(level, window);
+	levelWindowWidget->GetManager()->GetLevelWindowProperty()->SetLevelWindow(levelwindow);
+	m_RenderingManager->RequestUpdateAll();
+}
 
 bool QmitkStdMultiWidget::IsColoredRectanglesEnabled() const
 {
@@ -1994,4 +2112,7 @@ mitk::DataNode::Pointer QmitkStdMultiWidget::GetWidgetPlane(int id)
     break;
     default: return NULL;
   }
+}
+void QmitkStdMultiWidget::DisableCrosshairNavigation(){
+
 }

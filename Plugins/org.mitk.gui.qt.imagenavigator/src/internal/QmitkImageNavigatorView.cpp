@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -24,6 +24,9 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <berryConstants.h>
 #include <mitkPlaneGeometry.h>
 
+#include "QmitkStdMultiWidget.h"
+#include <mitkILinkedRenderWindowPart.h>
+#include <berryIWorkbenchPage.h>
 const std::string QmitkImageNavigatorView::VIEW_ID = "org.mitk.views.imagenavigator";
 
 
@@ -35,10 +38,73 @@ QmitkImageNavigatorView::QmitkImageNavigatorView()
   , m_Parent(0)
   , m_IRenderWindowPart(0)
 {
+	bInit_ = false;
 }
 
 QmitkImageNavigatorView::~QmitkImageNavigatorView()
 {
+}
+void QmitkImageNavigatorView::OnPreprocessing()
+{
+	MITK_INFO("org.mitk.views.imagenavigator") << "Preprocessing";
+// 	m_Controls.leftBtn->setChecked(true);
+// 	m_Controls.leftBtn->setEnabled(true);
+// 	m_Controls.rightBtn->setEnabled(true);
+// 	m_Controls.refLineBtn->setEnabled(true);
+// 	m_Controls.shaftNeckBtn->setEnabled(true);
+// 	m_Controls.stemAxisBtn->setEnabled(true);
+// 	m_Controls.diffBtn->setEnabled(true);
+
+	//¼¤»îgraphcut view
+	QString view_id = "org.mitk.views.imagegraphcut3dsegmentation";
+	this->GetSite()->GetPage()->ShowView(view_id);
+
+	//ÔÝÍ£ÏìÓ¦crosshair²Ù×÷
+// 	mitk::ILinkedRenderWindowPart* linkedRenderWindowPart = dynamic_cast<mitk::ILinkedRenderWindowPart*>(this->GetRenderWindowPart());
+// 	if (linkedRenderWindowPart != NULL)
+// 		linkedRenderWindowPart->EnableSlicingPlanes(false);
+	if (QmitkStdMultiWidget::app())
+	{
+		if (!bInit_)
+		{
+			QmitkStdMultiWidget::app()->navigator = this;
+
+			connect(m_Controls.preprocessingBtn, SIGNAL(clicked()),
+				QmitkStdMultiWidget::app(), SLOT(turnOnDDR()));
+
+			/*connect(m_Controls.rightBtn, SIGNAL(clicked()),
+				QmitkStdMultiWidget::app(), SLOT(rightPart()));
+			connect(m_Controls.leftBtn, SIGNAL(clicked()),
+				QmitkStdMultiWidget::app(), SLOT(leftPart()));
+
+			connect(m_Controls.refLineBtn, SIGNAL(clicked()),
+				QmitkStdMultiWidget::app(), SLOT(refLine()));*/
+
+			connect(m_Controls.planBtn, SIGNAL(clicked()),
+				QmitkStdMultiWidget::app(), SLOT(planning()));
+		}
+	}
+}
+void QmitkImageNavigatorView::OnPlan()
+{
+	MITK_INFO("org.mitk.views.imagenavigator") << "Plan";
+	mitk::DataStorage::Pointer ds = this->GetDataStorage();
+	ds->bEmulationMode = false;
+	//¼¤»îGeometryTools view
+	QString view_id = "org.mitk.views.geometrytools";
+	this->GetSite()->GetPage()->ShowView(view_id);
+
+}
+void QmitkImageNavigatorView::OnEmulation()
+{
+	MITK_INFO("org.mitk.views.imagenavigator") << "Emulation";
+
+// 	mitk::RenderingManager::GetInstance()->bEmulationMode = true;
+	mitk::DataStorage::Pointer ds = this->GetDataStorage();
+	ds->bEmulationMode = true;
+	//¼¤»îGeometryTools view
+	QString view_id = "org.mitk.views.geometrytools";
+	this->GetSite()->GetPage()->ShowView(view_id);
 }
 
 void QmitkImageNavigatorView::CreateQtPartControl(QWidget *parent)
@@ -56,6 +122,34 @@ void QmitkImageNavigatorView::CreateQtPartControl(QWidget *parent)
 
   mitk::IRenderWindowPart* renderPart = this->GetRenderWindowPart();
   this->RenderWindowPartActivated(renderPart);
+
+  m_Controls.m_TimeLabel->setVisible(false);
+  m_Controls.m_SliceNavigatorTime->setVisible(false);
+
+  connect(m_Controls.preprocessingBtn, SIGNAL(clicked()), this, SLOT(OnPreprocessing()));
+  connect(m_Controls.planBtn, SIGNAL(clicked()), this, SLOT(OnPlan()));
+  connect(m_Controls.emulationBtn, SIGNAL(clicked()), this, SLOT(OnEmulation()));
+
+  if (QmitkStdMultiWidget::app())
+  {
+	  QmitkStdMultiWidget::app()->navigator = this;
+
+	  connect(m_Controls.preprocessingBtn, SIGNAL(clicked()),
+		  QmitkStdMultiWidget::app(), SLOT(turnOnDDR()));
+
+	  /*connect(m_Controls.rightBtn, SIGNAL(clicked()),
+		  QmitkStdMultiWidget::app(), SLOT(rightPart()));
+	  connect(m_Controls.leftBtn, SIGNAL(clicked()),
+		  QmitkStdMultiWidget::app(), SLOT(leftPart()));
+
+	  connect(m_Controls.refLineBtn, SIGNAL(clicked()),
+		  QmitkStdMultiWidget::app(), SLOT(refLine()));*/
+
+	  connect(m_Controls.planBtn, SIGNAL(clicked()),
+		  QmitkStdMultiWidget::app(), SLOT(planning()));
+
+	  bInit_ = true;
+  }
 }
 
 void QmitkImageNavigatorView::SetFocus ()

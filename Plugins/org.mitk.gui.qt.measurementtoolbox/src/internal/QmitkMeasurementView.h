@@ -27,6 +27,7 @@ struct QmitkMeasurementViewData;
 namespace mitk
 {
   class PlanarFigure;
+  class PlanarFourPointAngle;
 }
 
 ///
@@ -71,7 +72,8 @@ class QmitkMeasurementView : public QmitkAbstractView
     void OnDrawBezierCurveTriggered( bool checked = false );
     void OnDrawSubdivisionPolygonTriggered( bool checked = false );
     void OnCopyToClipboard( bool checked = false );
-
+	void OnEnableCrosshairNavigation();
+	void OnConfirm();
   private:
     void CreateConnections();
     mitk::DataNode::Pointer AddFigureToDataStorage(mitk::PlanarFigure* figure, const QString& name);
@@ -88,6 +90,7 @@ class QmitkMeasurementView : public QmitkAbstractView
 
     // holds configuration objects that have been deactivated
     std::map<us::ServiceReferenceU, mitk::EventConfig> m_DisplayInteractorConfigs;
+	mitk::PlanarFourPointAngle* m_CenterLine;
 };
 
 #endif // QMITK_MEASUREMENT_H__INCLUDED

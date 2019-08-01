@@ -34,7 +34,6 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <QTimer>
 
 class QmitkStdMultiWidget;
-
 /**
  * \ingroup QmitkModule
  * \brief The QmitkRenderWindowMenu is a popup Widget which shows
@@ -57,6 +56,15 @@ class MITKQTWIDGETS_EXPORT QmitkRenderWindowMenu : public QWidget
   Q_OBJECT
 
 public:
+	typedef enum{
+		TRANSFORM_LEFT,
+		TRANSFORM_RIGHT,
+		TRANSFORM_UP,
+		TRANSFORM_DOWN,
+		TRANSFORM_CLOCKWISE,
+		TRANSFORM_ANTICLOCKWISE
+	} TransformType;
+
   QmitkRenderWindowMenu( QWidget* parent = 0, Qt::WindowFlags f = 0, mitk::BaseRenderer * b = 0, QmitkStdMultiWidget* mw = 0 );
   virtual ~QmitkRenderWindowMenu();
 
@@ -118,11 +126,12 @@ protected:
 
 
   int currentCrosshairRotationMode;
-
+  std::string getLayoutStr();
+  int getLayoutEnum();
+  void simuKeyPress(TransformType type, int layoutDesign);
   public slots:
 
   void SetCrossHairVisibility( bool state ) ;
-
 
 signals:
 
@@ -134,13 +143,20 @@ signals:
   /*! emit signal, when layout design changed by the setting menu.*/
   void SignalChangeLayoutDesign( int layoutDesign );
 
+  void SignalTransformUp(int layoutDesign);
+  void SignalTransformDown(int layoutDesign);
+  void SignalTransformLeft(int layoutDesign);
+  void SignalTransformRight(int layoutDesign);
+  void SignalTransformClockwise(int layoutDesign);
+  void SignalTransformAnticlockwise(int layoutDesign);
+
 public slots:
 
   void DeferredHideMenu( );
   void DeferredShowMenu( );
   void smoothHide( );
 
-protected slots:
+public slots:
 
   ///
   /// this function is continously called by a timer
@@ -207,6 +223,12 @@ protected slots:
 
   void OnCrossHairMenuAboutToShow();
 
+  void OnLeft();
+  void OnRight();
+  void OnUp();
+  void OnDown();
+  void OnAnticlockwise();
+  void OnClockwise();
 public:
 
   /*! enum for layout direction*/
@@ -324,6 +346,7 @@ protected:
   QTimer m_HideTimer;
 
   QWidget* m_Parent;
+
 };
 
 #endif // QmitkRenderWindowMenu_H

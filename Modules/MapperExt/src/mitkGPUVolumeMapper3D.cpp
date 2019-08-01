@@ -68,10 +68,15 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include "vtkOpenGLGPUVolumeRayCastMapper.h"
 #include "vtkMitkOpenGLVolumeTextureMapper3D.h"
 
+mitk::GPUVolumeMapper3D* mitk::GPUVolumeMapper3D::mapper_ = 0;
 
 const mitk::Image* mitk::GPUVolumeMapper3D::GetInput()
 {
   return static_cast<const mitk::Image*> ( GetDataNode()->GetData() );
+}
+
+mitk::GPUVolumeMapper3D* mitk::GPUVolumeMapper3D::mapper() {
+	return mapper_;
 }
 
 void mitk::GPUVolumeMapper3D::MitkRenderVolumetricGeometry(mitk::BaseRenderer* renderer)
@@ -98,9 +103,12 @@ bool mitk::GPUVolumeMapper3D::InitGPU(mitk::BaseRenderer* renderer)
   ls->m_MapperGPU = vtkSmartPointer<vtkMitkOpenGLVolumeTextureMapper3D>::New();
   ls->m_MapperGPU->SetUseCompressedTexture(false);
   ls->m_MapperGPU->SetSampleDistance(1.0);
+  ls->m_MapperGPU->SetBlendModeToAdditive();
+
+  m_MapperGPU = ls->m_MapperGPU;
 
   ls->m_VolumePropertyGPU = vtkSmartPointer<vtkVolumeProperty>::New();
-  ls->m_VolumePropertyGPU->ShadeOn();
+  ls->m_VolumePropertyGPU->ShadeOff();
   ls->m_VolumePropertyGPU->SetAmbient (0.25f); //0.05f
   ls->m_VolumePropertyGPU->SetDiffuse (0.50f); //0.45f
   ls->m_VolumePropertyGPU->SetSpecular(0.40f); //0.50f
@@ -327,7 +335,14 @@ vtkProp *mitk::GPUVolumeMapper3D::GetVtkProp(mitk::BaseRenderer *renderer)
 
   return ls->m_VolumeCPU;
 }
+vtkVolumeProperty* mitk::GPUVolumeMapper3D::GetVtkVolumeGPUProp(mitk::BaseRenderer *renderer)
+{
+	InitCommon();
+	InitVtkMapper(renderer);
 
+	LocalStorage *ls = m_LSH.GetLocalStorage(renderer);
+	return ls->m_VolumePropertyGPU;
+}
 
 void mitk::GPUVolumeMapper3D::GenerateDataForRenderer( mitk::BaseRenderer *renderer )
 {
@@ -709,5 +724,35 @@ bool mitk::GPUVolumeMapper3D::IsRAYEnabled( mitk::BaseRenderer * renderer )
   bool value = false;
   return ls->m_raySupported && GetDataNode()->GetBoolProperty("volumerendering.useray",value,renderer) && value;
 }
-
+void mitk::GPUVolumeMapper3D::leftHalfPart()
+{
+	double croppingPlanes[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	if (m_MapperGPU)
+	{
+		m_MapperGPU->SetCropping(1);
+		m_MapperGPU->GetBounds(croppingPlanes);
+		//xmax
+		croppingPlanes[1] *= 0.5f;
+		m_MapperGPU->SetCroppingRegionPlanes(croppingPlanes);
+	}
+}
+void mitk::GPUVolumeMapper3D::rightHalfPart()
+{
+	double croppingPlanes[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	if (m_MapperGPU)
+	{
+		m_MapperGPU->SetCropping(1);
+		m_MapperGPU->GetBounds(croppingPlanes);
+		//xmin
+		croppingPlanes[0] = croppingPlanes[1] * 0.5f;
+		m_MapperGPU->SetCroppingRegionPlanes(croppingPlanes);
+	}
+}
+void mitk::GPUVolumeMapper3D::fullRender()
+{
+	if (m_MapperGPU)
+	{
+		m_MapperGPU->SetCropping(0);
+	}
+}
 #endif

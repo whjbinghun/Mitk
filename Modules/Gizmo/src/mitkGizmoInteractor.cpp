@@ -1,4 +1,4 @@
-/*===================================================================
+﻿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -226,6 +226,9 @@ void mitk::GizmoInteractor::DecideInteraction(StateMachineAction*, InteractionEv
 
 void mitk::GizmoInteractor::MoveAlongAxis(StateMachineAction*, InteractionEvent* interactionEvent)
 {
+	//Í£Ö¹ÏìÓ¦Æ½ÒÆ
+	return;
+
   auto positionEvent = dynamic_cast<const InteractionPositionEvent*>(interactionEvent);
   if(positionEvent == NULL)
   {
@@ -290,6 +293,8 @@ void mitk::GizmoInteractor::MoveFreely(StateMachineAction*, InteractionEvent* in
 
 void mitk::GizmoInteractor::ScaleEqually(StateMachineAction*, InteractionEvent* interactionEvent)
 {
+	//Í£Ö¹ÏìÓ¦scale
+	return;
   auto positionEvent = dynamic_cast<const InteractionPositionEvent*>(interactionEvent);
   if(positionEvent == NULL)
   {

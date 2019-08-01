@@ -24,7 +24,6 @@ See LICENSE.txt or http://www.mitk.org for details.
 #include <mitkAffineBaseDataInteractor3D.h>
 
 #include "ui_QmitkGeometryToolsViewControls.h"
-
 /**
   \brief QmitkGeometryToolsView to modify geometry of mitkBaseData via interaction.
 
@@ -44,9 +43,8 @@ class QmitkGeometryToolsView : public QmitkAbstractView
   Q_OBJECT
 
   public:
-
     static const std::string VIEW_ID;
-
+	
 public slots:
 protected slots:
 
@@ -91,6 +89,12 @@ protected slots:
      * mitk::DataNode mitk::BaseGeometry.
      */
     void OnCenterPointRadioButton(bool);
+	void OnApply();
+	void OnSave();
+	void OnClipPlane();
+	void AddInteractorGizmo();
+	void RemoveInteractorGizmo();
+	void OnSettingCenterPoint();
 protected:
 
     virtual void CreateQtPartControl(QWidget *parent) override;
@@ -102,6 +106,12 @@ protected:
                                      const QList<mitk::DataNode::Pointer>& nodes ) override;
 
     Ui::QmitkGeometryToolsViewControls m_Controls;
+	QString cupFilePath;
+	QString tailFilePath;
+	QString cupFileName;
+	QString tailFileName;
+	
+	std::string gizmoNodeName;
 };
 
 #endif // QmitkGeometryToolsView_h

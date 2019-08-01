@@ -28,6 +28,7 @@ See LICENSE.txt or http://www.mitk.org for details.
 mitk::DataStorage::DataStorage() : itk::Object()
   , m_BlockNodeModifiedEvents(false)
 {
+	bEmulationMode = false;
 }
 
 mitk::DataStorage::~DataStorage()

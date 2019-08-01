@@ -144,6 +144,8 @@ namespace mitk
     RenderingManager
     ::AddRenderWindow(vtkRenderWindow *renderWindow)
   {
+	  bClipPlaneMode = false;
+	  bSettingCenterPoint = false;
     if (renderWindow
       && (m_RenderWindowList.find(renderWindow) == m_RenderWindowList.end()))
     {

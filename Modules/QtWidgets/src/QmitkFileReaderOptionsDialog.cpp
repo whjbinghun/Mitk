@@ -28,7 +28,7 @@ QmitkFileReaderOptionsDialog::QmitkFileReaderOptionsDialog(mitk::IOUtil::LoadInf
 
 {
   ui->setupUi(this);
-
+  ui->m_ReuseOptionsCheckBox->setChecked(true);
   m_ReaderItems = loadInfo.m_ReaderSelector.Get();
 
   bool hasOptions = false;
