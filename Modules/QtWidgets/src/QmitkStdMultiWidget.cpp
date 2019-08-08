@@ -1,4 +1,4 @@
-/*===================================================================
+ï»¿/*===================================================================
 
 The Medical Imaging Interaction Toolkit (MITK)
 
@@ -2018,7 +2018,7 @@ void QmitkStdMultiWidget::rightPart()
 	MITK_INFO("widget.stdmulti") << "rightPart";
 	emit SigRightPart();
 
-	//ÇĞ»»µ½ÓÒ°ë²¿·Ö
+	//åˆ‡æ¢åˆ°å³åŠéƒ¨åˆ†
 	mitk::Point3D rightPartCoord;
 	rightPartCoord[0] = 90.81;
 	rightPartCoord[1] = 187.81;
@@ -2027,7 +2027,7 @@ void QmitkStdMultiWidget::rightPart()
 }
 void QmitkStdMultiWidget::leftPart()
 {
-	//ÇĞ»»µ½×ó°ë²¿·Ö
+	//åˆ‡æ¢åˆ°å·¦åŠéƒ¨åˆ†
 	mitk::Point3D leftPartCoord;
 	leftPartCoord[0] = -93.40;
 	leftPartCoord[1] = 199.51;
@@ -2047,7 +2047,7 @@ void QmitkStdMultiWidget::turnOnDDR()
 	MITK_INFO("widget.stdmulti") << "turnOnDDR";
 	emit SigTurnOnDDR();
 
-	//¸Ä±ä²¼¾Ö
+	//æ”¹å˜å¸ƒå±€
 // 	GetRenderWindow4()->m_MenuWidget->OnChangeLayoutTo2x2Dand3DWidget(true);
 // 	GetRenderWindow4()->m_MenuWidget->SetCrossHairVisibility(false);
 
@@ -2066,7 +2066,7 @@ void QmitkStdMultiWidget::turnOnDDR()
 // 	m_PlaneNode3->SetProperty("reslice.thickslices.showarea", mitk::BoolProperty::New(true));
 // 
 // 	DisableCrosshairNavigation();
-	//ÉèÖÃ´°¿í£¬´°Î»
+	//è®¾ç½®çª—å®½ï¼Œçª—ä½
 	mitk::LevelWindow levelwindow;
 	mitk::ScalarType level = 1200.f;
 	mitk::ScalarType window = 2400.f;
